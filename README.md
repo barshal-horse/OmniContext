@@ -6,6 +6,7 @@
 [![MCP](https://img.shields.io/badge/MCP-Standard_v1.0-purple.svg)](https://modelcontextprotocol.io/)
 [![Pydantic v2](https://img.shields.io/badge/Pydantic-v2.9-red.svg)](https://docs.pydantic.dev/)
 [![Docker](https://img.shields.io/badge/Docker-Compose_Ready-2496ED.svg)](https://www.docker.com/)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fbarshal-horse%2FOmniContext&root-directory=frontend&project-name=omnicontext)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 
 > 💡 **What is OmniContext in Simple Words?**  
