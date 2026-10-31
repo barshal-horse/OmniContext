@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  omni-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: omni-context-gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - HOST=0.0.0.0
+      - PORT=8000
+      - OFFLINE_MOCK_MODE=true
+    volumes:
+      - ./backend:/app/backend
+      - ./tests:/app/tests
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped

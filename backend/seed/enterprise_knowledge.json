@@ -1,0 +1,37 @@
+[
+  {
+    "id": "doc-sec-001",
+    "title": "Enterprise Authentication & JWT Token Validation",
+    "category": "Security & Identity",
+    "content": "All inbound API requests must include an Authorization header with a Bearer JWT signed via RS256. Tokens expire after 3600 seconds. Replay protection is enforced by validating the jti (JWT ID) against Redis with an expiration matching the token lifetime. Revoked tokens return HTTP 401 with error code AUTH_TOKEN_REVOKED.",
+    "tags": ["jwt", "security", "auth", "redis", "token"]
+  },
+  {
+    "id": "doc-rate-002",
+    "title": "Token Bucket Rate Limiting Architecture",
+    "category": "Traffic & Infrastructure",
+    "content": "Enterprise endpoints enforce a distributed Token Bucket rate limiter in Redis. Each tenant is allocated 60 requests per minute with a burst capacity of 10. When capacity is exceeded, the gateway emits HTTP 429 Too Many Requests with headers X-RateLimit-Limit, X-RateLimit-Remaining, and Retry-After (seconds).",
+    "tags": ["ratelimit", "redis", "429", "traffic", "infrastructure"]
+  },
+  {
+    "id": "doc-db-003",
+    "title": "PostgreSQL Multi-Tenant Connection Pooling",
+    "category": "Database Architecture",
+    "content": "OmniContext enforces schema-per-tenant isolation on PostgreSQL 16. Connection pooling is managed via PgBouncer in transaction pooling mode. Maximum pool size is configured to 20 connections per pod with a query timeout of 5000ms. Deadlock detection triggers an automated transaction rollback and retry with exponential jitter.",
+    "tags": ["postgres", "database", "multitenant", "pooling", "timeout"]
+  },
+  {
+    "id": "doc-mcp-004",
+    "title": "Model Context Protocol (MCP) Standard Implementation",
+    "category": "AI Integration",
+    "content": "The gateway implements the Anthropic Model Context Protocol specification v1.0. Tools are exposed with strict JSON schema definitions. Clients connect via stdio for local subprocess execution or Server-Sent Events (SSE) on /mcp/events for network-isolated agent microservices. Tool calls require explicit capability handshakes.",
+    "tags": ["mcp", "model-context-protocol", "tools", "anthropic", "sse"]
+  },
+  {
+    "id": "doc-guard-005",
+    "title": "Pydantic v2 Schema Guardrails & Self-Healing Contract",
+    "category": "AI Reliability",
+    "content": "All model outputs are intercepted by the Guardrail engine and parsed against target Pydantic v2 schemas. If validation fails due to missing keys or type mismatch, the engine triggers an automatic reflection loop with error context (max 2 retries). If retries fail, a typed 422 Unprocessable Entity error is returned without silent fallback.",
+    "tags": ["pydantic", "guardrails", "validation", "schemas", "self-healing"]
+  }
+]
