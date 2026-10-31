@@ -22,3 +22,18 @@ services:
       timeout: 5s
       retries: 3
     restart: unless-stopped
+
+  omni-cockpit:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: omni-context-cockpit
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    depends_on:
+      omni-gateway:
+        condition: service_healthy
+    restart: unless-stopped
