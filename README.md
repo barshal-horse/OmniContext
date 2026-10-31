@@ -269,9 +269,9 @@ OmniContext/
 │   ├── package.json
 │   ├── tailwind.config.ts
 │   └── Dockerfile
-├── docs/                        # Architecture & FDE documentation
+├── docs/                        # Architecture & system documentation
 │   ├── assets/                  # Captured UI screenshots
-│   └── fde-engagement/          # Palantir/Scale AI engagement PRDs & ADRs
+│   └── fde-engagement/          # System PRD, Architecture ADRs & Runbook
 ├── tests/                       # 29 automated pytest verification tests
 ├── docker-compose.yml           # Multi-container orchestration
 ├── Dockerfile                   # Backend production Dockerfile
@@ -280,22 +280,8 @@ OmniContext/
 
 ---
 
-## 🎓 9. Staff Interview Defense (Questions & Plain Answers)
+## 📄 License & Author
 
-#### Q1: "Why use both BM25 and vector search? Isn't vector search modern and better?"
-> **Simple Answer**: No, vector search alone has a blind spot called the **"Semantic Generalization Trap"**. In vector space, `HTTP 429` (Rate Limited) is very close to `HTTP 401` (Unauthorized) because both are three-digit HTTP status codes. If a user asks how to handle an `HTTP 429` error, vector search often returns `HTTP 401`. BM25 is an exact keyword matcher that guarantees exact error codes and IDs are matched perfectly. Combining both with RRF ($k=60$) gives you the best of both worlds.
+* **Author**: Harshal Borse ([@barshal-horse](https://github.com/barshal-horse))
+* **License**: [Apache 2.0](LICENSE)
 
-#### Q2: "Why choose Server-Sent Events (SSE) over WebSockets for AI chat?"
-> **Simple Answer**: WebSockets are bidirectional (two-way) and require special protocol upgrades that are frequently blocked by corporate firewalls and cloud proxies. In AI chat, the communication is almost entirely **one-way**: the user sends one question, and the server sends a stream of tokens back. SSE runs over standard HTTP, traverses enterprise proxies seamlessly, and reconnects automatically without complex custom code.
-
-#### Q3: "What happens if a model outputs invalid JSON even after self-healing retries?"
-> **Simple Answer**: We **fail closed, never silently**. We do not guess or inject fake data, because passing partially corrupted data into a production database causes silent data corruption. Instead, the gateway returns a clean `HTTP 422 Unprocessable Entity` error with the exact Pydantic validation trace, logs the bad prompt for debugging, and routes to a fallback model.
-
----
-
-## 👨‍💻 Author & Engineering Standards
-
-* **Author**: Harshal Borse ([`barshal-horse`](https://github.com/barshal-horse))
-* **Education**: B.Tech in Computer Science & Engineering, IIIT Guwahati (Class of 2026)
-* **Standards**: Palantir & Scale AI Forward Deployed Engineer (FDE) baseline — fail-closed validation, offline resilience, and 100% automated test coverage.
-* **License**: Apache 2.0
